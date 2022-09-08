@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+  peka-ai:
+    container_name: peka-ai
+    build: ./
+    restart: always
+    volumes:
+      - ./config.json:/app/config.json
+    ports:
+      - 8080:8080
