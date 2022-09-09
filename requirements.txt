@@ -1,1 +1,3 @@
 big-sleep
+python-pptx
+reportlab
