@@ -1,3 +1,5 @@
 big-sleep
 python-pptx
 reportlab
+requests
+stability-sdk
