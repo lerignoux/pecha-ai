@@ -35,8 +35,8 @@ def get_config(ai):
 
 
 class PechaForm(FlaskForm):
-    title = StringField('presentation title', validators=[DataRequired()])
-    inputs = StringField('slides ai inputs', validators=[DataRequired()])
+    title = StringField('presentation title', validators=[DataRequired()], render_kw={"placeholder": "presentation title"})
+    inputs = StringField('slides ai inputs', validators=[DataRequired()], render_kw={"placeholder": "comma separated ai inputs for each slide"})
     slide_duration = IntegerField('slides duration', validators=[DataRequired()])
     do_query = BooleanField('do query ai (billing expected)', default=False)
     ai_choice = RadioField('Ai to use', choices=[

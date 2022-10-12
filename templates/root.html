@@ -1,26 +1,43 @@
-<div class="navbar navbar-fixed-top">
-  <!-- ... -->
-</div>
-{% block content %}
-  <h1>Pecha Ai</h1>
-  <p>
-    A small tool to generate pecha kucha presentations using ai generated images.<br/>
-    Just input the slides text content you wish and we will do everything for you
-  </p>
-     <div class="container">
-      <div class="jumbotron">
-        <h1>Generate your presentation</h1>
-        <p>Generate your pechakucha presentation using the form below:</p>
-      </div>
-   <div class="col-md-12">
-    <form method="POST" action="/kucha">
-    {{ form.csrf_token }}
-    {{ form.title.label }} {{ form.title(size=20) }}<br/>
-    {{ form.slide_duration.label }} {{ form.slide_duration(default=20) }} s<br/>
-    {{ form.inputs.label }} {{ form.inputs(size=200) }}<br/>
+<!DOCTYPE HTML>
+<!--
+    Eventually by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>iPecha Ai</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="static/assets/css/main.css" />
+    </head>
+    <body class="is-preload">
 
-    {{ form.ai_choice.label }} {{ form.ai_choice }}<br/>
-    {{ form.do_query.label }} {{ form.do_query }}<br/>
+        <!-- Header -->
+            <header id="header">
+                <h1>Pecha Ai</h1>
+                <p>
+                    A small tool to generate pecha kucha presentations using ai generated images.<br/>
+                    Just input the slides text content and parameters you wish and we will do everything for you
+                </p>
+            </header>
+
+        <!-- Signup Form -->
+{% block content %}
+    <form id="pecha-form" method="POST" action="/kucha">
+    {{ form.csrf_token }}
+    {{ form.title(size=20) }}<br/>
+    {{ form.inputs(size=200) }}<br/>
+    <div class="form-line">
+      <div> {{ form.slide_duration.label }} </div>
+      <div> {{ form.slide_duration(default=20) }} </div>
+    </div>
+    <div class="form-line">
+      <div> {{ form.ai_choice.label }} </div>
+      <div> {{ form.ai_choice }} </div>
+    </div>
+    <!--  {{ form.do_query.label }} {{ form.do_query }}<br/> -->
+
     <input type="submit" value="Generate the presentation">
 
     {% if form.title.errors %}
@@ -40,5 +57,23 @@
     {% endif %}
 
 </form>
-  </div>
 {% endblock %}
+
+        <!-- Footer -->
+            <footer id="footer">
+                <ul class="icons">
+                    <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                    <li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+                <ul class="copyright">
+                    <li>&copy; Untitled.</li><li>Credits: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </footer>
+
+        <!-- Scripts -->
+            <script src="static/assets/js/main.js"></script>
+
+    </body>
+</html>
