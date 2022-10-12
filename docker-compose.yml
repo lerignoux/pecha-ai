@@ -2,11 +2,12 @@ version: '3'
 
 services:
 
-  peka-ai:
-    container_name: peka-ai
+  pecha-ai:
+    container_name: pecha-ai
     build: ./
     restart: always
     volumes:
       - ./config.json:/app/config.json
+      - ./:/app/
     ports:
-      - 8080:8080
+      - 8082:8080
