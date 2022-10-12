@@ -35,11 +35,11 @@ def get_config(ai):
 
 
 class PechaForm(FlaskForm):
-    title = StringField('title', validators=[DataRequired()])
-    inputs = StringField('inputs', validators=[DataRequired()])
-    slide_duration = IntegerField('slide_duration', validators=[DataRequired()])
-    do_query = BooleanField('do_query', default=False)
-    radio_field = RadioField('Ai to use', choices=[
+    title = StringField('presentation title', validators=[DataRequired()])
+    inputs = StringField('slides ai inputs', validators=[DataRequired()])
+    slide_duration = IntegerField('slides duration', validators=[DataRequired()])
+    do_query = BooleanField('do query ai (billing expected)', default=False)
+    ai_choice = RadioField('Ai to use', choices=[
         ('stability', 'Stability'),
         ('big_sleep', "Big Sleep"),
     ])
@@ -68,7 +68,7 @@ def initialize():
 
 @app.route('/', methods=['GET'])
 def root():
-    form = PechaForm(slide_duration=20)
+    form = PechaForm(slide_duration=20, ai_choice="stability")
     # form.validate_on_submit()  # to get error messages to the browser
     return render_template('root.html', form=form)
 

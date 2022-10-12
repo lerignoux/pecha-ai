@@ -10,16 +10,18 @@
      <div class="container">
       <div class="jumbotron">
         <h1>Generate your presentation</h1>
-        <p>pptp file.</p>
+        <p>Generate your pechakucha presentation using the form below:</p>
       </div>
    <div class="col-md-12">
     <form method="POST" action="/kucha">
     {{ form.csrf_token }}
     {{ form.title.label }} {{ form.title(size=20) }}<br/>
     {{ form.slide_duration.label }} {{ form.slide_duration(default=20) }} s<br/>
-    {{ form.inputs.label }} {{ form.inputs(size=360) }}<br/>
+    {{ form.inputs.label }} {{ form.inputs(size=200) }}<br/>
+
+    {{ form.ai_choice.label }} {{ form.ai_choice }}<br/>
     {{ form.do_query.label }} {{ form.do_query }}<br/>
-    <input type="submit" value="Go">
+    <input type="submit" value="Generate the presentation">
 
     {% if form.title.errors %}
       <ul class="errors">
