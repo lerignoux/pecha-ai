@@ -28,7 +28,7 @@ class PechaForm(FlaskForm):
         render_kw={"placeholder": inputs_placeholder}
     )
 
-    slide_duration = IntegerField('slides duration', validators=[DataRequired()])
+    slide_duration = IntegerField('slides duration (in s)', validators=[DataRequired()])
     ai_choice = RadioField('Ai model', choices=[
         ('none', 'None: Test'),
         ('stability', 'Stability')
