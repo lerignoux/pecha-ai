@@ -29,8 +29,25 @@
 {% block content %}
     <form id="pecha-form" method="POST" action="/pecha">
     {{ form.csrf_token }}
+
     {{ form.title(size=20) }}<br/>
+    {% if form.title.errors %}
+      <ul class="errors">
+        {% for error in form.title.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
     {{ form.inputs(size=200) }}<br/>
+    {% if form.inputs.errors %}
+      <ul class="errors">
+        {% for error in form.inputs.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
     <div class="form-line">
       <div> {{ form.slide_duration.label }} </div>
       <div> {{ form.slide_duration(default=20) }} </div>
@@ -40,22 +57,6 @@
     </div>
 
     <input type="submit" value="Generate the presentation">
-
-    {% if form.title.errors %}
-      <ul class="errors">
-        {% for error in form.title.errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-
-    {% if form.inputs.errors %}
-      <ul class="errors">
-        {% for error in form.inputs.errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
 
 </form>
 {% endblock %}
