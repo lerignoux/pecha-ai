@@ -32,7 +32,7 @@ class threadedGeneration:
 
     def generate_image(self, title, input_text, ai, config):
         ai = self.ais[ai](title, config)
-        input_text = input_text.strip()
+        input_text = input_text.strip(" ,\r")
         image = ai.generate(input_text, input_text)
         if len(image) == 0:
             raise Exception(f"Failed generating image from input {input_text}.")

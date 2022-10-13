@@ -9,19 +9,28 @@ log = logging.getLogger(__name__)
 
 
 class PechaForm(FlaskForm):
+    default_inputs = [
+        "A dead tree photo on a hill",
+        "A view from space of hearth with volcano erupting",
+        "A dark painting of a nightsky signed \"Questions\""
+    ]
+
     title = StringField(
-    	'presentation title',
-    	validators=[DataRequired(), Length(max=64), NoneOf("__default__")],
-    	render_kw={"placeholder": "presentation title"}
+        'presentation title',
+        validators=[DataRequired(), Length(max=64), NoneOf("__default__")],
+        render_kw={"placeholder": "presentation title"}
     )
+
+    inputs_placeholder = "input each slide ai text input per line, for instance\n" + "\n".join(default_inputs)
     inputs = TextAreaField(
-    	'slides ai inputs',
-    	validators=[DataRequired()],
-    	render_kw={"placeholder": "input each slide ai text input per line"}
+        'slides ai inputs',
+        validators=[DataRequired()],
+        render_kw={"placeholder": inputs_placeholder}
     )
+
     slide_duration = IntegerField('slides duration', validators=[DataRequired()])
-    ai_choice = RadioField('Ai to use', choices=[
-        ('none', 'None'),
+    ai_choice = RadioField('Ai model', choices=[
+        ('none', 'None: Test'),
         ('stability', 'Stability')
     ])
 

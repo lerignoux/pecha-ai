@@ -905,3 +905,15 @@ button,
 .form-line > div {
   margin: 2px 10px;
 }
+
+#header a.link {
+  color: #1cb495;
+}
+
+.spacer {
+  min-width:5%;
+}
+
+textarea {
+  min-height: 170px;
+}

@@ -18,8 +18,11 @@
                 <h1>Pecha Ai</h1>
                 <p>
                     A small tool to generate pecha kucha presentations using ai generated images.<br/>
-                    Just input the slides text content and parameters you wish and we will do everything for you
+                    Just input the slides description and we will do the rest<br/><br/>
+                    I am paying for the ai generation so don't abuse it ;)<br/>
+                    Or by me a beer/sponsor me on : <a class="link" href="https://www.paypal.com/paypalme/lerignoux">Paypal</a>
                 </p>
+                
             </header>
 
         <!-- Signup Form -->
@@ -31,8 +34,7 @@
     <div class="form-line">
       <div> {{ form.slide_duration.label }} </div>
       <div> {{ form.slide_duration(default=20) }} </div>
-    </div>
-    <div class="form-line">
+      <div class="spacer"></div>
       <div> {{ form.ai_choice.label }} </div>
       <div> {{ form.ai_choice }} </div>
     </div>

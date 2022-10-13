@@ -3,6 +3,7 @@ import requests
 import getpass, os
 import io
 import os
+import re
 import warnings
 
 from PIL import Image
@@ -29,6 +30,8 @@ class Stability():
         )
 
     def generate(self, name, input):
+        clean_name = re.sub('[^A-Za-z0-9]+', '_', name)
+        clean_name = re.sub('_+', '_', clean_name)
         results = []
         answers = self.stability_api.generate(
             prompt=input,
@@ -46,8 +49,8 @@ class Stability():
                     warnings.warn("Your request activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
 
                 if artifact.type == generation.ARTIFACT_IMAGE:
-                    filename = f"generated/{self.project_name}/{name}.jpg"
-                    filename_raw = f"generated/{self.project_name}/debug/{name}_raw.jpg"
+                    filename = f"generated/{self.project_name}/{clean_name}.jpg"
+                    filename_raw = f"generated/{self.project_name}/debug/{clean_name}_raw.jpg"
                     try:
                         os.makedirs(os.path.dirname(filename))
                         os.makedirs(os.path.dirname(filename_raw))
