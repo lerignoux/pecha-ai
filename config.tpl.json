@@ -1,5 +1,10 @@
 {
   "stability": {
     "api_key": ""
+  },
+  "flask": {
+  	"secret_key": "to_update",
+  	"debug": false
   }
+}
 }

@@ -24,7 +24,7 @@
 
         <!-- Signup Form -->
 {% block content %}
-    <form id="pecha-form" method="POST" action="/kucha">
+    <form id="pecha-form" method="POST" action="/pecha">
     {{ form.csrf_token }}
     {{ form.title(size=20) }}<br/>
     {{ form.inputs(size=200) }}<br/>
@@ -36,7 +36,6 @@
       <div> {{ form.ai_choice.label }} </div>
       <div> {{ form.ai_choice }} </div>
     </div>
-    <!--  {{ form.do_query.label }} {{ form.do_query }}<br/> -->
 
     <input type="submit" value="Generate the presentation">
 

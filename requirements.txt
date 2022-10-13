@@ -1,5 +1,5 @@
 # big-sleep
-flask
+flask[async]
 flask-WTF
 python-pptx
 reportlab
