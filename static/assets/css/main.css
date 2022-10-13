@@ -917,3 +917,8 @@ button,
 textarea {
   min-height: 170px;
 }
+
+.errors {
+  color: red;
+  font-size: 12px;
+}

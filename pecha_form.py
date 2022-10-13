@@ -17,7 +17,7 @@ class PechaForm(FlaskForm):
 
     title = StringField(
         'presentation title',
-        validators=[DataRequired(), Length(max=64), NoneOf("__default__")],
+        validators=[DataRequired(), Length(max=64), NoneOf(["__default__"])],
         render_kw={"placeholder": "presentation title"}
     )
 

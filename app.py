@@ -47,8 +47,8 @@ async def generate():
     form = PechaForm(slide_duration=20, ai_choice="stability")
 
     title = form['title'].data
-    if title == "__default__":
-        raise Exception("Reserved title.")
+    if not form.validate():
+        return render_template('root.html', form=form)
     inputs = form['inputs'].data.split("\n")
     slide_duration = form['slide_duration'].data
     ai  = request.form.get('ai_choice', 'stability')
