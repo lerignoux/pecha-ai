@@ -42,13 +42,11 @@ def root():
     return render_template('root.html', form=form)
 
 
-@app.route('/pecha', methods=['POST', 'GET'])
+@app.route('/pecha', methods=['POST'])
 async def generate():
     form = PechaForm(slide_duration=20, ai_choice="stability")
 
     title = form['title'].data
-    if not form.validate():
-        return render_template('root.html', form=form)
     inputs = form['inputs'].data.split("\n")
     slide_duration = form['slide_duration'].data
     ai  = request.form.get('ai_choice', 'stability')
