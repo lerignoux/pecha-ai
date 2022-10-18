@@ -3,7 +3,7 @@ import threading
 from multiprocessing.pool import ThreadPool
 
 from presentation_generation.pptx import Pptx
-from image_generation.stability import Stability
+from image_generation.stability import Stability, GenerationException
 
 
 log = logging.getLogger(__name__)

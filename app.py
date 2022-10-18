@@ -2,12 +2,12 @@ import argparse
 import json
 import logging
 
-from flask import Flask, render_template, send_file, request
+from flask import Flask, render_template, send_file, request, abort
 
 from flask_wtf.csrf import CSRFProtect
 
 from pecha_form import PechaForm
-from threaded_generation import threadedGeneration
+from threaded_generation import threadedGeneration, GenerationException
 
 
 log = logging.getLogger('peka-ai')
@@ -54,7 +54,10 @@ async def generate():
     log.debug(f"Generate pecha `{title}` from {inputs} using `{ai}` ai");
 
     generator = threadedGeneration(get_config())
-    images = generator.generate_images(title, inputs, ai)
+    try:
+        images = generator.generate_images(title, inputs, ai)
+    except GenerationException as e:
+        abort(500, str(e))
     file = generator.generate_pecha(title, images, slide_duration=slide_duration)
     return send_file(file, as_attachment=True)
 

@@ -14,6 +14,10 @@ import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 log = logging.getLogger(__name__)
 
 
+class GenerationException(Exception):
+    pass
+
+
 class Stability():
     """
     Image generation using Stability-SDK: https://github.com/Stability-AI/stability-sdk
@@ -46,6 +50,7 @@ class Stability():
             for artifact in resp.artifacts:
                 if artifact.finish_reason == generation.FILTER:
                     warnings.warn("Your request activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
+                    raise GenerationException("Your request activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
 
                 if artifact.type == generation.ARTIFACT_IMAGE:
                     filename = f"generated/{self.project_name}/{clean_name}.jpg"
