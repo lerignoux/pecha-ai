@@ -922,3 +922,15 @@ textarea {
   color: red;
   font-size: 12px;
 }
+
+.small {
+  font-size: 0.8em;
+}
+
+#pecha-form {
+  z-index: 3;
+}
+
+#footer {
+  z-index: 2;
+}
