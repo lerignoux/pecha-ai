@@ -35,8 +35,7 @@ class Stability():
         results = []
         answers = self.stability_api.generate(
             prompt=input,
-            seed=34567, # if provided, specifying a random seed makes results deterministic
-            steps=30, # defaults to 50 if not specified
+            steps=50, # defaults to 50 if not specified
             width=960,
             height=576
         )
