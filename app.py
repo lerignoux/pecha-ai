@@ -23,6 +23,43 @@ app.config['SECRET_KEY'] = get_config().get('flask', {}).get('secret_key', "Defa
 csrf = CSRFProtect(app)
 
 
+def data_size(directory = "./generated/"):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(directory):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            # skip if it is symbolic link
+            if not os.path.islink(fp):
+                total_size += os.path.getsize(fp)
+
+    return total_size
+
+
+def oldest_directory(directory = "./generated/"):
+    oldest = None
+    for folder in os.listdir(directory):
+
+        if not os.path.isdir(directories):
+            continue
+
+        if oldest is None or os.stat(folder).st_ctime < os.stat(oldest).st_ctime:
+            oldest = folder
+
+    return oldest
+
+
+def delete_oldest(directory = "./generated/"):
+    oldest = oldest_directory(directory)
+    log.info(f"sudo rm -rf {oldest}")
+    # os.system(f"sudo rm -rf {oldest}")
+
+
+def clean_data():
+    max_size = get_config().get("data_size", 50)
+    while data_size() > max_size:
+        delete_oldest("./generated/")
+
+
 @app.before_first_request
 def initialize():
     logger = logging.getLogger("peka-ai")
@@ -35,6 +72,7 @@ def initialize():
     ch.setFormatter(formatter)
     logger.addHandler(ch)
 
+    clean_data()
 
 @app.route('/', methods=['GET'])
 def root():
