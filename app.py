@@ -1,6 +1,8 @@
 import argparse
 import json
 import logging
+import os
+import pathlib
 
 from flask import Flask, render_template, send_file, request, abort
 
@@ -23,6 +25,59 @@ app.config['SECRET_KEY'] = get_config().get('flask', {}).get('secret_key', "Defa
 csrf = CSRFProtect(app)
 
 
+def data_size(directory = "./generated/"):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(directory):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            # skip if it is symbolic link
+            if not os.path.islink(fp):
+                total_size += os.path.getsize(fp)
+
+    return total_size
+
+
+def oldest_directory(directory = "./generated/"):
+    oldest = None
+    data_path = os.path.join(pathlib.Path().resolve(), directory)
+    for folder in os.listdir(data_path):
+        if folder == "__default__" or not folder:
+            continue
+
+        folder_path = os.path.join(data_path, folder)
+
+        if not os.path.isdir(folder_path):
+            continue
+
+        if oldest is None or os.stat(oldest).st_ctime > os.stat(folder_path).st_ctime:
+            oldest = folder_path
+
+    return oldest
+
+
+def delete_oldest(directory = "./generated/"):
+    oldest = oldest_directory(directory)
+    if oldest is not None:
+        oldest = oldest.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+        log.debug(f"removing oldest folder {oldest}")
+        os.system(f"rm -rf {oldest}")
+    else:
+        log.debug("No oldest folder to delete.")
+
+
+def clean_data():
+    """
+    Remove oldest ressources if generated data exceed 50 Mo
+    """
+    max_size = get_config().get("data_size", 50000000)
+    while data_size() > max_size:
+        old_size = data_size()
+        delete_oldest("./generated/")
+        if data_size() == old_size:
+            log.warning(f"Could not free space before request. app may take more than 50M. current storage: {old_size/100000}")
+            break
+
+
 @app.before_first_request
 def initialize():
     logger = logging.getLogger("peka-ai")
@@ -34,7 +89,6 @@ def initialize():
     )
     ch.setFormatter(formatter)
     logger.addHandler(ch)
-
 
 @app.route('/', methods=['GET'])
 def root():
@@ -51,6 +105,7 @@ async def generate():
     slide_duration = form['slide_duration'].data
     ai  = request.form.get('ai_choice', 'stability')
 
+    clean_data()
     log.debug(f"Generate pecha `{title}` from {inputs} using `{ai}` ai");
 
     generator = threadedGeneration(get_config())
