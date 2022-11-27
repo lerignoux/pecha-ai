@@ -24,8 +24,8 @@ class Stability():
     See more use cases examples: https://colab.research.google.com/github/stability-ai/stability-sdk/blob/main/nbs/demo_colab.ipynb#scrollTo=SCPVcZxjqV-u
     """
     def __init__(self, project_name="test", config=None):
-        self.api_key = config['api_key']
         self.project_name = project_name
+        self.api_key = config['api_key']
         os.environ['STABILITY_HOST'] = 'grpc.stability.ai:443'
 
         self.stability_api = client.StabilityInference(
