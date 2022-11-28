@@ -72,7 +72,10 @@ class Stability():
                         os.remove(filename)
                     except OSError:
                         pass
-                    img.save(filename)
+                    try:
+                        img.save(filename)
+                    except ValueError as e:
+                        log.exception(f"Failed to save image {filename}: {e}")
                     results.append(filename)
 
         return results
