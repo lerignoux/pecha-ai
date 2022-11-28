@@ -33,12 +33,12 @@ class Stability():
             verbose=True
         )
 
-    def generate(self, name, input):
+    def generate(self, name, user_input):
         clean_name = re.sub('[^A-Za-z0-9]+', '_', name)
         clean_name = re.sub('_+', '_', clean_name)
         results = []
         answers = self.stability_api.generate(
-            prompt=input,
+            prompt=user_input,
             steps=50, # defaults to 50 if not specified
             width=960,
             height=576
@@ -50,7 +50,7 @@ class Stability():
             for artifact in resp.artifacts:
                 if artifact.finish_reason == generation.FILTER:
                     warnings.warn("Your request activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
-                    raise GenerationException("Your request activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
+                    raise GenerationException(f"Your request: `{user_input}` activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
 
                 if artifact.type == generation.ARTIFACT_IMAGE:
                     filename = f"generated/{self.project_name}/{clean_name}.jpg"
