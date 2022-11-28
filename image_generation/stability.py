@@ -36,7 +36,16 @@ class Stability():
     def generate(self, name, user_input):
         clean_name = re.sub('[^A-Za-z0-9]+', '_', name)
         clean_name = re.sub('_+', '_', clean_name)
+
+        filename = f"generated/{self.project_name}/{clean_name}.jpg"
+        filename_raw = f"generated/{self.project_name}/debug/{clean_name}_raw.jpg"
         results = []
+
+        if os.path.isfile(filename):
+            # no need to regenerate the file to save request credits
+            results.append(filename)
+            return filename
+
         answers = self.stability_api.generate(
             prompt=user_input,
             steps=50, # defaults to 50 if not specified
@@ -50,11 +59,9 @@ class Stability():
             for artifact in resp.artifacts:
                 if artifact.finish_reason == generation.FILTER:
                     warnings.warn("Your request activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
-                    raise GenerationException(f"Your request: `{user_input}` activated the API's safety filters and could not be processed.Please modify the prompt and try again.")
+                    raise GenerationException(f"Your request: `{user_input}` activated the API's safety filters and could not be processed. Please modify the prompt and try again.")
 
                 if artifact.type == generation.ARTIFACT_IMAGE:
-                    filename = f"generated/{self.project_name}/{clean_name}.jpg"
-                    filename_raw = f"generated/{self.project_name}/debug/{clean_name}_raw.jpg"
                     try:
                         os.makedirs(os.path.dirname(filename))
                         os.makedirs(os.path.dirname(filename_raw))
