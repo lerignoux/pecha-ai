@@ -64,6 +64,9 @@ class Stability():
                 if artifact.type == generation.ARTIFACT_IMAGE:
                     try:
                         os.makedirs(os.path.dirname(filename))
+                    except FileExistsError:
+                        pass
+                    try:
                         os.makedirs(os.path.dirname(filename_raw))
                     except FileExistsError:
                         pass

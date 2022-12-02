@@ -49,11 +49,14 @@ class threadedGeneration:
         images = [None for i in inputs]
 
         for i, input_text in enumerate(inputs):
-            async_result = self.pool.apply_async(self.generate_image, (title, input_text, ai, config))
+            async_result = self.pool.apply_async(self.generate_image, args=(title, input_text, ai, config))
             generation_threads[i] = async_result
 
         for i, async_result in enumerate(generation_threads):
-            images[i] = async_result.get()
+            try:
+                images[i] = async_result.get()
+            except ValueError as e:
+                log.exception(f"Failed fetching image generation on {title}: {e}")
 
         log.debug(f"Images generated: {images}")
         return images
