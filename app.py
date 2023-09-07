@@ -77,9 +77,7 @@ def clean_data():
             log.warning(f"Could not free space before request. app may take more than 50M. current storage: {old_size/100000}")
             break
 
-
-@app.before_first_request
-def initialize():
+with app.app_context():
     logger = logging.getLogger("peka-ai")
     logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
